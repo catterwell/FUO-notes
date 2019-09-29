@@ -1,0 +1,187 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{parskip}
+\usepackage{tabularx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage{centernot}
+\usepackage{hyperref}
+\usepackage{eufrak}
+\usepackage{graphicx}
+\graphicspath{{pics/}}
+\geometry{a4paper, left=20mm, right=20mm, top=20mm, bottom=20mm}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{Anthony Catterwell}
+\chead{\textsc{University of Edinburgh}}
+\rhead{Fundamentals of Optimization}
+
+\title{Fundamentals of Optimization Notes}
+\author{Anthony Catterwell}
+
+\pagenumbering{gobble}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Lecture 1}
+
+\subsection{LP Formulation}
+\subsection{Graphs \& Directed Graphs}
+\subsection{Network Flow Problem}
+\subsection{Quadratic Programming}
+
+
+\section{Lecture 2}
+
+\subsection{Convexity}
+\begin{itemize}
+    \item \textbf{Definition} \emph{Convexity} \\
+        A set $C \subset \mathbb{R}^n$ is convex
+        $\iff \forall x, y \in C, \forall \lambda \in [0, 1] \ f(\lambda x + (1 - \lambda))
+        \leq \lambda f(x) + (1 - \lambda) f(y)$
+
+    \item \textbf{Definition} \emph{Epigraph} \\
+        The epigraph of a function is the set lying \textbf{above} the function.\
+        i.e.\ If $C$ is a subset of $\mathbb{R}^n$, and function $f : C \mapsto \mathbb{R}$,
+        then the epigraph of $f$ is
+        \[
+            \mathrm{epi}(f) = \{ (x, z) | x \in C, z \geq f(x) \} \in \mathbb{R}^{n+1}
+        \]
+\end{itemize}
+
+\begin{itemize}
+    \item \textbf{Definition} \emph{Convex set} \\
+        A set $C \subset \mathbb{R}^n$ is convex
+        \[
+            \iff \forall x, y \in C, \forall \lambda \in [0, 1], \quad
+            \exists z = \lambda x + (1 - \lambda) y \in C
+        \]
+
+    \item \textbf{Definition} Function $f : C \mapsto \mathbb{R}$ is \emph{convex} if and only if
+        \[
+            f(\lambda x + (1 - \lambda) y) \leq \lambda f(x) + (1-\lambda) f(y), \
+            \forall x, y \in C, \forall \lambda \in [0, 1]
+        \]
+
+    \item \textbf{Definition} Function $f : C \mapsto \mathbb{R}$ is \emph{concave} if and only if
+        \[
+            f(\lambda x + (1 - \lambda) y) \geq \lambda f(x) + (1-\lambda) f(y), \
+            \forall x, y \in C, \forall \lambda \in [0, 1]
+        \]
+
+    \item \textbf{Definition} Function $f : C \mapsto \mathbb{R}$ is \emph{strictly convex} if and only if
+        \[
+            f(\lambda x + (1 - \lambda) y) < \lambda f(x) + (1-\lambda) f(y), \
+            \forall x, y \in C, \forall \lambda \in [0, 1]
+        \]
+
+    \item \textbf{Definition} Function $f : C \mapsto \mathbb{R}$ is \emph{strictly concave} if and only if
+        \[
+            f(\lambda x + (1 - \lambda) y) > \lambda f(x) + (1-\lambda) f(y), \
+            \forall x, y \in C, \forall \lambda \in [0, 1]
+        \]
+
+    \item \textbf{Definition} A vector $\vec{x}$ is a \textbf{local} minimum of $f$ if
+        \[
+            \exists \epsilon > 0 \ \text{such that} \
+            f(\vec{x}) \leq f(x), \forall x |x - \vec{x}| < \epsilon
+        \]
+
+    \item \textbf{Definition} A vector $\vec{x}$ is a \textbf{global} minimum of $f$ if
+        \[
+            f(\vec{x}) \leq f(x), \ \forall x \in X
+        \]
+
+    \item If $X$ is a convex set and $f : X \mapsto \mathbb{R}$ is a convex function,
+        then the minimization problem is said to be \emph{convex}.
+
+    \item \textbf{Lemma} In a convex minimization problem a \textbf{local} minimum is a
+        \mathbf{global} minimum.
+
+    \item \textbf{Definition} A linear map $L : \mathbb{R}^n \to \mathbb{R}^m$ satisfies
+        \begin{enumerate}
+            \item $L(x + y) = L(x) + L(y)$
+            \item $\alpha L(x) = L(\alpha x)$ for scalar $\alpha$.
+        \end{enumerate}
+
+    \item \textbf{Definition} An affine map is a linear map \emph{plus} a shift of the origin.
+        It takes the form $F(x) = d + Mx$, where $d \in \mathbb{R}^m$.
+
+    \item \textbf{Lemma} An affine function (and hence also a linear function) is both
+        convex and concave.
+
+\end{itemize}
+
+\subsection{Properties of Convex Sets and Functions}
+\begin{enumerate}
+    \item For any collection $\{ C_i | i \in I \}$ of convex sets, the intersection
+        $\cap_{i \in I} C_i$ is convex.
+
+    \item The vector sum $\{ x_1 + x_2 | x_1 \in C_1, x_2 \in C_2 \}$
+        of two convex sets $C_1$ and $C_2$ is convex.
+
+    \item The image of a convex set under a linear map is convex.\
+        i.e. If $C$ is a convex set and $L$ a linear map $\{ L(x) | x \in C \}$ is convex.
+        (True also for affine map.)
+
+    \item For $C$ a convex set,
+        $f : C \mapsto \mathbb{R}$ a convex function and $L : C \mapsto \mathbb{R}$
+        and affine function, the \textbf{level sets}
+        $\{ x \in C | f(x) \leq \alpha \}$
+        and
+        $\{ x \in C | L(x) = \alpha \}$
+        are convex for all scalars $\alpha$.
+
+    \item For $C$ a convex set and any collection $f_i : C \mapsto \mathbb{R} | i \in I$ of convex
+        functions, a non-negative weighted sum, i.e.
+        $f = \sum_{i \in I} w_f f_i : C \mapsto \mathbb{R}$,
+        where $w_i \geq 0$, $i \in I$, is convex.
+
+    \item For $I$ a (finite) index set, $C$ a convex set, and $f_i : C \mapsto \mathbb{R}$
+        a convex function $\forall i \in I$, the function $h : C \mapsto \mathbb{R}$ defined by
+        $h(x) = \max_{i \in I} f_i(x)$ is convex.
+
+    \item For $C$ a convex set, $f: C \mapsto \mathbb{R}$ a convex function, and
+        $g : \mathbb{R} \mapsto \mathbb{R}$
+        a convex and non-decreasing function, the function $h : C \mapsto \mathbb{R}$ defined
+        by $h(x) = g(f(x))$ is convex.
+
+    \item Let $C \subseteq \mathbb{R}^n$ be a convex set and $f : C \mapsto \mathbb{R}$ be
+        differentiable over $C$.
+        \begin{enumerate}
+            \item The function $f$ is convex if and only if
+                \[
+                    f(y) \geq f(x) + \nabla^T f(x)(y-x), \quad \forall x, y \in C
+                \]
+
+            \item if the inequality is strict $\forall x \neq y$, then $f$ is strictly convex.
+        \end{enumerate}
+
+    \item Let $C \subseteq \mathbb{R}^n$ be a convex set and $f : C \mapsto \mathbb{R}$
+        be twice continuously differentiable over $C$.
+        \begin{enumerate}
+            \item If $f$ is convex in $C$ and $C$ has an interior (i.e.\ a point not on its boundary),
+                then $\nabla^2 f(x)$ is positive semi-definite at all $x \in C$.
+
+            \item If $\nabla^2 f(x)$ is positive semi-definite for all $x \in C$, then $f$ is convex in $C$.
+
+            \item If $\nabla^2 f(x)$ is positive definite for all $x \in C$, then $f$ is strictly convex.
+        \end{enumerate}
+
+    \item Let $H$ be a square symmetric matrix and let $f(x) = x^T H x$
+        (so $f$ is a quadratic function).
+        \begin{enumerate}
+            \item $f$ is convex if and only if $H$ is positive semi-definite.
+
+            \item $f$ is strictly convex if and only if $H$ is positive definite.
+        \end{enumerate}
+\end{enumerate}
+
+\end{document}
